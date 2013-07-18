@@ -50,6 +50,6 @@
 }
 
 /* always use full wiki */
-.bx-wrapper img {
+.bx-wrapper img.plugin_slider_img {
     width: 100%;
 }

@@ -61,6 +61,7 @@ class syntax_plugin_slider extends DokuWiki_Syntax_Plugin {
      * @return array Data for the renderer
      */
     public function handle($match, $state, $pos, &$handler){
+        global $conf;
         $first = true;
 
         // handle intermediate slider calls just like new entry patterns
@@ -76,7 +77,25 @@ class syntax_plugin_slider extends DokuWiki_Syntax_Plugin {
                 return array($state, $img, $first);
 
             case DOKU_LEXER_UNMATCHED:
-                $handler->_addCall('cdata', array($match), $pos);
+                // check if $match is a == header ==
+                $headerMatch = preg_grep('/([ \t]*={2,}[^\n]+={2,}[ \t]*(?=))/msSi', array($match));
+                if (empty($headerMatch)) {
+                    $handler->_addCall('cdata', array($match), $pos);
+                } else {
+                    // if it's a == header ==, use the core header() renderer
+                    // (copied from core header() in inc/parser/handler.php)
+                    $title = trim($match);
+                    $level = 7 - strspn($title,'=');
+                    if($level < 1) $level = 1;
+                    $title = trim($title,'=');
+                    $title = trim($title);
+
+                    $handler->_addCall('header',array($title,$level,$pos), $pos);
+                    // close the section edit the header could open
+                    if ($title && $level <= $conf['maxseclevel']) {
+                        $handler->addPluginCall('wrap_closesection', array(), DOKU_LEXER_SPECIAL, $pos, '');
+                    }
+                }
                 return false;
 
             case DOKU_LEXER_EXIT:
@@ -129,7 +148,7 @@ class syntax_plugin_slider extends DokuWiki_Syntax_Plugin {
     private function open_slide($R, $img){
         // open the list item
         $R->doc .= '<li>';
-        $R->doc .= '<img src="'.ml($img, array('w'=>$this->getConf('width'))).'" alt="" />';
+        $R->doc .= '<img src="'.ml($img, array('w'=>$this->getConf('width'))).'" class="plugin_slider_img" alt="" />';
 
 
         // remount the doc
