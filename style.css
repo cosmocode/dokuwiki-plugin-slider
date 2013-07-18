@@ -1,0 +1,55 @@
+.dokuwiki ul.plugin_slider {
+    margin: 0;
+    padding: 0;
+}
+
+.dokuwiki ul.plugin_slider li {
+    position: relative;
+    z-index: 100;
+    margin: 0;
+    padding: 0;
+}
+
+.dokuwiki ul.plugin_slider li div.plugin_slider_content {
+    position: absolute;
+
+    background-color: __background__;
+    background-color: rgba(255, 255, 255, 0.8);
+    right: 90px;
+    bottom: 60px;
+    max-width: 70%;
+    max-height: 90%;
+    overflow: hidden;
+    z-index: 500;
+
+    padding: 1em;
+
+}
+
+/* no border */
+.bx-wrapper .bx-viewport {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    left: 0;
+}
+
+/* move pager up */
+.bx-wrapper {
+    margin: 0 auto;
+}
+.bx-wrapper .bx-controls .bx-pager {
+    bottom: 10px;
+    z-index: 9999;
+}
+
+/* pager outline */
+.bx-wrapper .bx-controls .bx-pager a {
+    border: 1px solid #999;
+}
+
+/* always use full wiki */
+.bx-wrapper img {
+    width: 100%;
+}
