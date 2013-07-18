@@ -65,7 +65,7 @@ class syntax_plugin_slider extends DokuWiki_Syntax_Plugin {
         $first = true;
 
         // handle intermediate slider calls just like new entry patterns
-        if($state == DOKU_LEXER_UNMATCHED && substr($match, 0, 8) == '<slider '){
+        if($state == DOKU_LEXER_UNMATCHED && substr($match, 0, 7) == '<slider'){
             $state = DOKU_LEXER_ENTER;
             $first = false;
         }
@@ -73,7 +73,7 @@ class syntax_plugin_slider extends DokuWiki_Syntax_Plugin {
         // handle states
         switch ($state) {
             case DOKU_LEXER_ENTER:
-                $img = strtolower(trim(substr($match,strpos($match,' '),-1)));
+                $img = trim(substr($match, 7,-1));
                 return array($state, $img, $first);
 
             case DOKU_LEXER_UNMATCHED:
@@ -147,9 +147,12 @@ class syntax_plugin_slider extends DokuWiki_Syntax_Plugin {
      */
     private function open_slide($R, $img){
         // open the list item
-        $R->doc .= '<li>';
-        $R->doc .= '<img src="'.ml($img, array('w'=>$this->getConf('width'))).'" class="plugin_slider_img" alt="" />';
-
+        if($img){
+            $R->doc .= '<li class="plugin_slider_hasimg">';
+            $R->doc .= '<img src="'.ml($img, array('w'=>$this->getConf('width'))).'" class="plugin_slider_img" alt="" />';
+        }else{
+            $R->doc .= '<li class="plugin_slider_noimg">';
+        }
 
         // remount the doc
         $R->keepdoc = $R->doc;

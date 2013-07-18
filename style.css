@@ -3,14 +3,19 @@
     padding: 0;
 }
 
-.dokuwiki ul.plugin_slider li {
+.dokuwiki ul.plugin_slider li.plugin_slider_hasimg,
+.dokuwiki ul.plugin_slider li.plugin_slider_noimg {
     position: relative;
     z-index: 100;
     margin: 0;
     padding: 0;
 }
 
-.dokuwiki ul.plugin_slider li div.plugin_slider_content {
+.dokuwiki ul.plugin_slider li.plugin_slider_noimg {
+    height: auto;
+}
+
+.dokuwiki ul.plugin_slider li.plugin_slider_hasimg div.plugin_slider_content {
     position: absolute;
 
     background-color: __background__;
@@ -23,7 +28,10 @@
     z-index: 500;
 
     padding: 20px;
+}
 
+.dokuwiki ul.plugin_slider li.plugin_slider_noimg div.plugin_slider_content {
+    padding: 20px 70px;
 }
 
 /* no border */

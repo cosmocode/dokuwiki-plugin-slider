@@ -2,7 +2,6 @@
 
 jQuery(function(){
     jQuery('ul.plugin_slider').bxSlider({
-        adaptiveHeight: true,
         auto: true,
         autoHover: true
     });
