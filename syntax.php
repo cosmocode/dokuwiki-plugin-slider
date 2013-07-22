@@ -10,6 +10,9 @@
 if (!defined('DOKU_INC')) die();
 
 class syntax_plugin_slider extends DokuWiki_Syntax_Plugin {
+
+    private $inslideopener = false;
+
     /**
      * @return string Syntax mode type
      */
@@ -62,18 +65,37 @@ class syntax_plugin_slider extends DokuWiki_Syntax_Plugin {
      */
     public function handle($match, $state, $pos, &$handler){
         global $conf;
-        $first = true;
+        $first = false;
+        $img = '';
+
+        // the enter state is the very first slide only
+        if($state == DOKU_LEXER_ENTER){
+            $first = true;
+        }
 
         // handle intermediate slider calls just like new entry patterns
         if($state == DOKU_LEXER_UNMATCHED && substr($match, 0, 7) == '<slider'){
             $state = DOKU_LEXER_ENTER;
-            $first = false;
+        }
+        // handle unclosed slide opener, by getting the image url from the last call
+        if($this->inslideopener && $state == DOKU_LEXER_UNMATCHED && substr($match, 0, 7) == '>'){
+            $lastcall = array_pop($handler->calls);
+            if(preg_match('/^https?:\/\//i', $lastcall[1][0])) $img = $lastcall[1][0];
+            $state = DOKU_LEXER_ENTER;
+            $this->inslideopener = false;
         }
 
         // handle states
         switch ($state) {
             case DOKU_LEXER_ENTER:
-                $img = trim(substr($match, 7,-1));
+                if(substr($match, -1) != '>'){
+                    // we have a slide opener, but it contained some other syntax (probably a link)
+                    // happens because we parse our own syntax from LEXER_UNMATCHED calls
+                    $this->inslideopener = true;
+                    return false;
+                }elseif(!$img){
+                    $img = trim(substr($match, 7,-1));
+                }
                 return array($state, $img, $first);
 
             case DOKU_LEXER_UNMATCHED:
@@ -168,6 +190,7 @@ class syntax_plugin_slider extends DokuWiki_Syntax_Plugin {
         // clean up dangling paragraphs
         $R->doc = preg_replace('/<p>\s*$/','',$R->doc);
         $R->doc = preg_replace('/^\s*<\/p>\s*/','',$R->doc);
+        $R->doc = trim($R->doc);
 
         // wrap content if any
         if($R->doc){
