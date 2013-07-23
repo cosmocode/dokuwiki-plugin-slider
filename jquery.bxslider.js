@@ -333,7 +333,7 @@
 			// bind the resize call to the window
 			if (slider.settings.responsive) $(window).bind('resize', resizeWindow);
 			// if auto is true, start the show
-			if (slider.settings.auto && slider.settings.autoStart) initAuto();
+			if (slider.settings.auto && slider.settings.autoStart && slider.children.length > 1) initAuto();
 			// if ticker is true, start the ticker
 			if (slider.settings.ticker) initTicker();
 			// if pager is requested, make the appropriate pager link active
@@ -602,6 +602,7 @@
 		var populatePager = function(){
 			var pagerHtml = '';
 			var pagerQty = getPagerQty();
+            if(pagerQty <= 1) return;
 			// loop through each pager item
 			for(var i=0; i < pagerQty; i++){
 				var linkContent = '';
