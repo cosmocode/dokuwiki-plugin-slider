@@ -27,7 +27,7 @@
     overflow: hidden;
     z-index: 500;
 
-    padding: 20px;
+    padding: 20px 20px 0;
 }
 
 .dokuwiki ul.plugin_slider li.plugin_slider_noimg div.plugin_slider_content {
@@ -49,6 +49,9 @@
 }
 .bx-wrapper .bx-controls .bx-pager {
     bottom: 10px;
+    z-index: 9999;
+}
+.bx-wrapper .bx-controls-direction a {
     z-index: 9999;
 }
 
