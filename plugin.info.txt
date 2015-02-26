@@ -1,7 +1,7 @@
 base   slider
 author Andreas Gohr
-email  gohr@cosmocode.de
-date   2013-08-14
+email  dokuwiki@cosmocode.de
+date   2015-02-26
 name   slider plugin
 desc   Add a slider element to any DokuWiki page
 url    http://www.dokuwiki.org/plugin:slider
