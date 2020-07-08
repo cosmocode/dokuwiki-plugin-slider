@@ -10,7 +10,7 @@
 $meta['width'] = array('numeric', '_min' => 100);
 
 // general settings
-$meta['mode']                = array('multichoice', _choices => array('horizontal', 'vertical', 'fade'));
+$meta['mode']                = array('multichoice', '_choices' => array('horizontal', 'vertical', 'fade'));
 $meta['infiniteLoop']        = array('onoff');
 $meta['hideControlOnEnd']    = array('onoff');
 $meta['speed']               = array('numeric');
@@ -25,12 +25,12 @@ $meta['adaptiveHeight']      = array('onoff');
 $meta['adaptiveHeightSpeed'] = array('numeric');
 $meta['video']               = array('onoff');
 $meta['useCSS']              = array('onoff');
-$meta['preloadImages']       = array('multichoice', _choices => array('all', 'visible'));
+$meta['preloadImages']       = array('multichoice', '_choices' => array('all', 'visible'));
 $meta['responsive']          = array('onoff');
 
 // pager
 $meta['pager']                = array('onoff');
-$meta['pagerType']            = array('multichoice', _choices => array('full','short'));
+$meta['pagerType']            = array('multichoice', '_choices' => array('full','short'));
 $meta['pagerShortSeparator']  = array('string');
 
 // controls
